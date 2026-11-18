@@ -1,4 +1,6 @@
-import Image from "next/image";
+import { Suspense } from "react";
+import Loader from "./Loader";
+import PostList from "./components/PostList";
 
 export default function Home() {
   return (
@@ -8,6 +10,10 @@ export default function Home() {
       </h1>
 
       <p>学習記録や開発の記録を残していくブログです。</p>
+
+      <Suspense fallback={<Loader />}>
+        <PostList />
+      </Suspense>
     </div>
   );
 }

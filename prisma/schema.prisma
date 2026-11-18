@@ -3,48 +3,41 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
-model Post {
-  id             Int       @id @default(autoincrement())
-  title          String
-  content        String
+model BlogPost {
+  id                Int       @id @default(autoincrement())
+  title             String
+  content           String
   // thumbnailUrl   String    @map("thumbnail_url")
   // prismaにはセキュリティの問題でurlではなくthumbnailImageKeyを保存する
-  thumbnailImageKey   String    @map("thumbnail_key")
-  createdAt      DateTime  @default(now()) @map("created_at")
-  updatedAt      DateTime  @updatedAt @map("updated_at")
-  postCategories PostCategory[]
+  thumbnailImageKey   String?    @map("thumbnail_key")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+  postCategories    BlogPostCategory[]
 }
 
-model Category {    
+model BlogCategory {    
   id             Int       @id @default(autoincrement())
   name           String
   createdAt      DateTime  @default(now()) @map("created_at")
   updatedAt      DateTime  @updatedAt @map("updated_at")
-  posts          PostCategory[]
+  posts          BlogPostCategory[]
 }
 
-model PostCategory {
+model BlogPostCategory {
   id             Int       @id @default(autoincrement())
   postId         Int
   categoryId     Int       @map("category_id")
   createdAt      DateTime  @default(now()) @map("created_at")
   updatedAt      DateTime  @updatedAt @map("updated_at")
-  category       Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  post           Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  category       BlogCategory  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  post           BlogPost      @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 
 // 過去
-generator client {
-  provider = "prisma-client-js"
-}
-
-datasource db {
-  provider = "postgresql"
-}
 
 model BbsUser {
   id          Int      @id @default(autoincrement())
