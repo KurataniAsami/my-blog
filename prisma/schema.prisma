@@ -26,6 +26,7 @@ model BlogCategory {
   posts          BlogPostCategory[]
 }
 
+// 記事とカテゴリーを紐づける中間テーブル
 model BlogPostCategory {
   id             Int       @id @default(autoincrement())
   postId         Int
